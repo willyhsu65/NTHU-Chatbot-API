@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gin
+  name: gin
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gin
+  template:
+    metadata:
+      labels:
+        app: gin
+    spec:
+      containers:
+      - image: gcr.io/predictive-goal-263306/nthu-chatbot-api:latest
+        imagePullPolicy: Always
+        name: nthu-chatbot-api
+        ports:
+        - containerPort: 8080
+        env:
+        - name: TZ
+          value: Asia/Taipei
+      
+        

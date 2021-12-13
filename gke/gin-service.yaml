@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gin
+  name: gin-service
+  namespace: default
+spec:
+  ports:
+  - nodePort: 32431
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: gin
+  type: NodePort
