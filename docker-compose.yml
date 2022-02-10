@@ -2,7 +2,7 @@ version: '3'
 services:
   frontend:
     container_name: 'nthu-chatbot-client'
-    image: music1353/nthu-chatbot-client
+    build: ../NTHU-Chatbot/
     restart: always
     ports:
       - "80:80"
@@ -15,7 +15,7 @@ services:
       - backend
   flask:
     container_name: 'nthu-chatbot-nlp-api'
-    image: music1353/nthu-chatbot-nlp-api
+    build: ../NTHU-Campus-Agent-LINE-Flask/
     restart: always
     ports:
       - "5000:5000"
@@ -28,7 +28,7 @@ services:
       - backend
   backend:
     container_name: 'nthu-chatbot-api'
-    image: music1353/nthu-chatbot-api
+    build: ../NTHU-Chatbot-API/
     restart: always
     ports:
       - "8080:8080"
