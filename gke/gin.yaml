@@ -16,7 +16,7 @@ spec:
         app: gin
     spec:
       containers:
-      - image: gcr.io/$(PROJECT_ID)/nthu-chatbot-api:latest
+      - image: gcr.io/${PROJECT_ID}/nthu-chatbot-api:latest
         imagePullPolicy: Always
         name: nthu-chatbot-api
         ports:
