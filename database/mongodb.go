@@ -13,7 +13,7 @@ import (
 
 const (
     // host = "mongodb://[MONGO_ACCOUNT]:[MONGO_PASS]@[MONGO_IP]:27017"
-    host = "mongodb://${MONGOIP}:27017"
+    host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"
 )
 
 var mongoClient *mongo.Client
