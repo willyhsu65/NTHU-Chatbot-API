@@ -40,6 +40,9 @@ func InitRouter() *gin.Engine {
             user.POST("/setFlag", v1.SetFlagUserApi)
             user.GET("/getInfo", v1.GetInfoUserApi)
             user.POST("/bindStudentID", v1.BindStudentIDUserApi)
+
+            // TODO: UpdateBroadcastTag
+            // TODO: GetBroadcastAudienceIds
             
             mapRecord := user.Group("/map")
             {

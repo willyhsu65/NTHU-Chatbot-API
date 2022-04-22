@@ -16,6 +16,9 @@ import (
     "nthu-chatbot-api/vendors/mongo"
 )
 
+
+// TODO: Add broadcast time tag.
+// TODO: Update API definition.
 type User struct {
     UserID    string    `json:"userID" form:"userID" bson:"userID"`
     Category  string    `json:"userID" form:"category" bson:"category"`
@@ -143,6 +146,18 @@ func (u *User) GetInfo() (time string, err error) {
         time = result.Time
     }
     return
+}
+
+// TODO: Update broadcast tag
+// TODO: Fix api definition accordingly.
+func (u *User) UpdateBroadcastTag() () {
+    // Similar to SetFlag
+}
+
+// TODO: Get broadcast audience ids
+// TODO: Fix api definition accordingly.
+func () GetBroadcastAudienceIds() (audienceIds string) {
+    // Similar to GetFlag
 }
 
 /* user_map_record */
