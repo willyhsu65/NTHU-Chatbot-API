@@ -170,7 +170,7 @@
   | POST       | v1URL/user/map/insert                 | 新增一筆查詢校園地圖資料     | userID, location  |             |
   | GET        | v1URL/user/map/record                 | 取得此使用者查詢校園地圖紀錄 | userID            | [location]  |
   | POST       | v1URL/user/updateBroadcastTag         | 設定使用者的上次被推播的時間戳 | userID, tag     |   |
-  | GET        | v1URL/user/getBroadcastAudienceIds    | 取得要被推播的使用者 id      | userID* (Optional, select only self if given) | [userID]  |
+  | GET        | v1URL/user/getBroadcastAudienceIds    | 取得要被推播的使用者 id      | userID (Optional, select everyone if not given) | [userID]  |
   
 * **anecdoteAPI**
 
