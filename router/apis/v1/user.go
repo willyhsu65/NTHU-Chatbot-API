@@ -268,17 +268,17 @@ func BindStudentIDUserApi(c *gin.Context) {
     })
 }
 
-/*  @desc 設定使用者的主動推播偏好
+/*  @desc 設定使用者的上次被推播的時間戳
     @method POST
     @param userID string
     @param tag int
 */
 func updateBroadcastTag(c *gin.Context) {
     userID := c.PostForm("userID")
-    studentID := c.PostForm("tag")
+    tag := c.PostForm("tag")
     
     user := models.User{UserID: userID}
-    err := user.BindStudentID(studentID)
+    err := user.UpdateBroadcastTag(user, tag)
     if err != nil {
         c.JSON(http.StatusServiceUnavailable, gin.H{
             "result": "",
@@ -289,21 +289,16 @@ func updateBroadcastTag(c *gin.Context) {
 
     c.JSON(http.StatusOK, gin.H{
         "result": "",
-        "msg": "Successful bind user's studentID",
+        "msg": "Successful updated user's tag",
     })
 }
 
 /*  @desc 取得要被推播的使用者 id
     @method GET
-    @param userID string
-    @param studentID string
 */
-func getBroadcastAudienceIds(c *gin.Context) {
-    userID := c.PostForm("userID")
-    studentID := c.PostForm("studentID")
-    
-    user := models.User{UserID: userID}
-    err := user.BindStudentID(studentID)
+func getBroadcastAudienceIds(c *gin.Context) {   
+    user := models.User{}
+    err, audienceIds := user.GetBroadcastAudienceIds()
     if err != nil {
         c.JSON(http.StatusServiceUnavailable, gin.H{
             "result": "",
@@ -313,7 +308,7 @@ func getBroadcastAudienceIds(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, gin.H{
-        "result": "",
-        "msg": "Successful bind user's studentID",
+        "result": audienceIds,
+        "msg": "Successful selected id of unbroadcasted users",
     })
 }

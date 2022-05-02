@@ -16,15 +16,14 @@ import (
     "nthu-chatbot-api/vendors/mongo"
 )
 
-
-// TODO: Add broadcast time tag.
 type User struct {
-    UserID    string    `json:"userID" form:"userID" bson:"userID"`
-    Category  string    `json:"userID" form:"category" bson:"category"`
-    Time      string    `json:"time" form:"time" bson:"time"`
-    Flag      string    `json:"flag" form:"flag" bson:"flag"`
-    Tag       []string  `json:"tag" form:"tag" bson:"tag"`
-    StudentID string    `json:"studentID" form:"studentID" bson:"studentID"`
+    UserID          string    `json:"userID" form:"userID" bson:"userID"`
+    Category        string    `json:"userID" form:"category" bson:"category"`
+    Time            string    `json:"time" form:"time" bson:"time"`
+    Flag            string    `json:"flag" form:"flag" bson:"flag"`
+    Tag             []string  `json:"tag" form:"tag" bson:"tag"`
+    StudentID       string    `json:"studentID" form:"studentID" bson:"studentID"`
+    BroadcastTag    int       `json:"broadcastTag" form:"broadcastTag" bson:"broadcastTag"`
 }
 
 type UserInfo struct {
@@ -147,16 +146,35 @@ func (u *User) GetInfo() (time string, err error) {
     return
 }
 
-// TODO: Update broadcast tag
-// TODO: Fix api definition accordingly.
-func (u *User) UpdateBroadcastTag() () {
-    // Similar to SetFlag
+func (u *User) UpdateBroadcastTag(tag int) (err error) {
+    userCollect := db.MongoDatabase.Collection("user")
+    
+    filter := bson.M{"userID": u.UserID}
+    update := bson.M{ "$set": bson.M{ "broadcastTag": tag } }
+
+    ctx, _ := context.WithTimeout(context.TODO(), 5*time.Second)
+    _, err = userCollect.UpdateOne(ctx, filter, update)
+    if err != nil {
+        log.Println(err.Error())
+    }
+    return
 }
 
-// TODO: Get broadcast audience ids
-// TODO: Fix api definition accordingly.
-func () GetBroadcastAudienceIds() (audienceIds string) {
-    // Similar to GetFlag
+func (u *User) GetBroadcastAudienceIds() (err error, audienceIds string[]) {    
+    var results []User
+
+    ts := now.Unix()
+    userCollect := db.MongoDatabase.Collection("user")
+    filter := bson.M{"broadcastTag": bson.M{ "$gte": ts } }
+    err = userCollect.Find(context.TODO(), filter).Decode(&result)
+    if err != nil {
+        log.Println(err.Error())
+    } else {
+        for _, u := range results {
+            audienceIds = append(audienceIds, u.userID)
+        }
+    }
+    return
 }
 
 /* user_map_record */
