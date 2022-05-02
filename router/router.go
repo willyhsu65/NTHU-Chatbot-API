@@ -41,8 +41,8 @@ func InitRouter() *gin.Engine {
             user.GET("/getInfo", v1.GetInfoUserApi)
             user.POST("/bindStudentID", v1.BindStudentIDUserApi)
 
-            // TODO: UpdateBroadcastTag
-            // TODO: GetBroadcastAudienceIds
+            user.POST("/updateBroadcastTag", v1.updateBroadcastTag)
+            user.GET("/getBroadcastAudienceIds", v1.getBroadcastAudienceIds)
             
             mapRecord := user.Group("/map")
             {

@@ -18,7 +18,6 @@ import (
 
 
 // TODO: Add broadcast time tag.
-// TODO: Update API definition.
 type User struct {
     UserID    string    `json:"userID" form:"userID" bson:"userID"`
     Category  string    `json:"userID" form:"category" bson:"category"`

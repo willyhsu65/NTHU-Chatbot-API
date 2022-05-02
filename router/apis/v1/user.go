@@ -242,3 +242,78 @@ func BindStudentIDUserApi(c *gin.Context) {
         "msg": "Successful bind user's studentID",
     })
 }
+
+/*  @desc 綁定學生學號
+    @method POST
+    @param userID string
+    @param studentID string
+*/
+func BindStudentIDUserApi(c *gin.Context) {
+    userID := c.PostForm("userID")
+    studentID := c.PostForm("studentID")
+    
+    user := models.User{UserID: userID}
+    err := user.BindStudentID(studentID)
+    if err != nil {
+        c.JSON(http.StatusServiceUnavailable, gin.H{
+            "result": "",
+            "msg": err.Error(),
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "result": "",
+        "msg": "Successful bind user's studentID",
+    })
+}
+
+/*  @desc 設定使用者的主動推播偏好
+    @method POST
+    @param userID string
+    @param tag int
+*/
+func updateBroadcastTag(c *gin.Context) {
+    userID := c.PostForm("userID")
+    studentID := c.PostForm("tag")
+    
+    user := models.User{UserID: userID}
+    err := user.BindStudentID(studentID)
+    if err != nil {
+        c.JSON(http.StatusServiceUnavailable, gin.H{
+            "result": "",
+            "msg": err.Error(),
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "result": "",
+        "msg": "Successful bind user's studentID",
+    })
+}
+
+/*  @desc 取得要被推播的使用者 id
+    @method GET
+    @param userID string
+    @param studentID string
+*/
+func getBroadcastAudienceIds(c *gin.Context) {
+    userID := c.PostForm("userID")
+    studentID := c.PostForm("studentID")
+    
+    user := models.User{UserID: userID}
+    err := user.BindStudentID(studentID)
+    if err != nil {
+        c.JSON(http.StatusServiceUnavailable, gin.H{
+            "result": "",
+            "msg": err.Error(),
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "result": "",
+        "msg": "Successful bind user's studentID",
+    })
+}
