@@ -160,6 +160,7 @@ func (u *User) UpdateBroadcastTag(tag int) (err error) {
     return
 }
 
+// TODO: 
 func (u *User) GetBroadcastAudienceIds() (err error, audienceIds string[]) {    
     var results []User
 
