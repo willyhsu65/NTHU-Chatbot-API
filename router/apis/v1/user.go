@@ -297,7 +297,8 @@ func updateBroadcastTag(c *gin.Context) {
     @method GET
 */
 func getBroadcastAudienceIds(c *gin.Context) {   
-    user := models.User{}
+    userID := c.Query("userID")
+    user := models.User{UserID: userID}
     err, audienceIds := user.GetBroadcastAudienceIds()
     if err != nil {
         c.JSON(http.StatusServiceUnavailable, gin.H{

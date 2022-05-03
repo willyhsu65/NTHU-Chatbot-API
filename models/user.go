@@ -160,7 +160,6 @@ func (u *User) UpdateBroadcastTag(tag int) (err error) {
     return
 }
 
-// TODO: 
 func (u *User) GetBroadcastAudienceIds() (err error, audienceIds string[]) {    
     var results []User
 
@@ -171,8 +170,14 @@ func (u *User) GetBroadcastAudienceIds() (err error, audienceIds string[]) {
     if err != nil {
         log.Println(err.Error())
     } else {
-        for _, u := range results {
-            audienceIds = append(audienceIds, u.userID)
+        for _, uid := range results {
+            if u.userID != nil {
+                if u.userID == uid {
+                    audienceIds = append(audienceIds, u.userID)
+                }
+            } else {
+                audienceIds = append(audienceIds, u.userID)
+            }
         }
     }
     return
