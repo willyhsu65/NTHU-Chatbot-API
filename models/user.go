@@ -160,24 +160,33 @@ func (u *User) UpdateBroadcastTag(tag int) (err error) {
     return
 }
 
-func (u *User) GetBroadcastAudienceIds() (err error, audienceIds string[]) {    
+func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds string) {    
     var results []User
 
-    ts := now.Unix()
+    ts := time.Now().Unix()
     userCollect := db.MongoDatabase.Collection("user")
     filter := bson.M{"broadcastTag": bson.M{ "$gte": ts } }
-    err = userCollect.Find(context.TODO(), filter).Decode(&result)
-    if err != nil {
-        log.Println(err.Error())
-    } else {
-        for _, uid := range results {
-            if u.userID != nil {
-                if u.userID == uid {
-                    audienceIds = append(audienceIds, u.userID)
-                }
-            } else {
-                audienceIds = append(audienceIds, u.userID)
+
+    cursor, err_find := userCollect.Find(context.TODO(), filter)
+    if err_find != nil {
+        log.Println(err_find.Error())
+        return
+    } 
+
+    err_decode := cursor.Decode(&results)
+    if err_decode != nil {
+        log.Println(err_decode.Error())
+        return
+    } 
+    
+    audienceIds = ""
+    for _, user_row := range results {
+        if id != "" {
+            if user_row.UserID == id {
+                audienceIds = audienceIds + "," + user_row.UserID
             }
+        } else {
+            audienceIds = audienceIds + "," + user_row.UserID
         }
     }
     return

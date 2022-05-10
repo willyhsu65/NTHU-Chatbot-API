@@ -4,6 +4,7 @@ import (
     "net/http"
     _"log"
     _"fmt"
+    "strconv"
 
     "github.com/gin-gonic/gin"
 
@@ -243,42 +244,22 @@ func BindStudentIDUserApi(c *gin.Context) {
     })
 }
 
-/*  @desc 綁定學生學號
-    @method POST
-    @param userID string
-    @param studentID string
-*/
-func BindStudentIDUserApi(c *gin.Context) {
-    userID := c.PostForm("userID")
-    studentID := c.PostForm("studentID")
-    
-    user := models.User{UserID: userID}
-    err := user.BindStudentID(studentID)
-    if err != nil {
-        c.JSON(http.StatusServiceUnavailable, gin.H{
-            "result": "",
-            "msg": err.Error(),
-        })
-        return
-    }
-
-    c.JSON(http.StatusOK, gin.H{
-        "result": "",
-        "msg": "Successful bind user's studentID",
-    })
-}
-
 /*  @desc 設定使用者的上次被推播的時間戳
     @method POST
     @param userID string
     @param tag int
 */
-func updateBroadcastTag(c *gin.Context) {
+func UpdateBroadcastTag(c *gin.Context) {
     userID := c.PostForm("userID")
     tag := c.PostForm("tag")
     
     user := models.User{UserID: userID}
-    err := user.UpdateBroadcastTag(user, tag)
+    tag_int, err := strconv.Atoi(tag)
+    if err == nil {
+        // Pass down the error to next stage.
+        err = user.UpdateBroadcastTag(tag_int)
+    }
+
     if err != nil {
         c.JSON(http.StatusServiceUnavailable, gin.H{
             "result": "",
@@ -296,10 +277,10 @@ func updateBroadcastTag(c *gin.Context) {
 /*  @desc 取得要被推播的使用者 id
     @method GET
 */
-func getBroadcastAudienceIds(c *gin.Context) {   
+func GetBroadcastAudienceIds(c *gin.Context) {   
     userID := c.Query("userID")
-    user := models.User{UserID: userID}
-    err, audienceIds := user.GetBroadcastAudienceIds()
+    user := models.User{}
+    err, audienceIds := user.GetBroadcastAudienceIds(userID)
     if err != nil {
         c.JSON(http.StatusServiceUnavailable, gin.H{
             "result": "",
