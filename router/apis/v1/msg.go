@@ -34,7 +34,7 @@ type Msg struct {
 func PushMsgApi(c *gin.Context) {
     var msg Msg
     c.BindJSON(&msg)
-    log.Println("Got an push msg call.")
+    log.Println("Got an push msg call on push Msg API.")
 
     // 取得line token
     t := models.Token{ID: "0"}

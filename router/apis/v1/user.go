@@ -252,6 +252,7 @@ func BindStudentIDUserApi(c *gin.Context) {
 func UpdateBroadcastTag(c *gin.Context) {
     userID := c.PostForm("userID")
     tag := c.PostForm("tag")
+    log.Println("An user have updated its broadcast tag.")
     
     user := models.User{UserID: userID}
     tag_int, err := strconv.Atoi(tag)
@@ -279,6 +280,8 @@ func UpdateBroadcastTag(c *gin.Context) {
 */
 func GetBroadcastAudienceIds(c *gin.Context) {   
     userID := c.Query("userID")
+    log.Println("Got a broadcast request.")
+
     user := models.User{}
     err, audienceIds := user.GetBroadcastAudienceIds(userID)
     if err != nil {
