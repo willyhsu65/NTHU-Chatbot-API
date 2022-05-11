@@ -169,13 +169,15 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds string
 
     cursor, err_find := userCollect.Find(context.TODO(), filter)
     if err_find != nil {
+        err = err_find
         log.Println(err_find.Error())
         return
     }
 
-    err := cursor.All(&results)
-    if err != nil {
-        log.Println(err.Error())
+    err_all := cursor.All(context.TODO(), &results)
+    if err_all != nil {
+        err = err_all
+        log.Println(err_all.Error())
         return
     }
 
