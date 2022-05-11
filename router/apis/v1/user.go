@@ -251,6 +251,9 @@ func BindStudentIDUserApi(c *gin.Context) {
 */
 func UpdateBroadcastTag(c *gin.Context) {
     log.Println("An user have updated its broadcast tag.")
+    c.String(200, "pang")
+
+    return
 
     userID := c.PostForm("userID")
     tag := c.PostForm("tag")
@@ -281,6 +284,9 @@ func UpdateBroadcastTag(c *gin.Context) {
 */
 func GetBroadcastAudienceIds(c *gin.Context) {   
     log.Println("Got a broadcast request.")
+    c.String(200, "pong")
+
+    return
 
     userID := c.Query("userID")
 
