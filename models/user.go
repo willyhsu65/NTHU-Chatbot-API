@@ -160,7 +160,7 @@ func (u *User) UpdateBroadcastTag(tag int) (err error) {
     return
 }
 
-func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds string) {    
+func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds []string) {    
     var results []User
 
     ts := time.Now().Unix()
@@ -185,10 +185,10 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds string
     for _, user_row := range results {
         if id != "" {
             if user_row.UserID == id {
-                audienceIds = audienceIds + "," + user_row.UserID
+                audienceIds = append(audienceIds, user_row.UserID)
             }
         } else {
-            audienceIds = audienceIds + "," + user_row.UserID
+            audienceIds = append(audienceIds, user_row.UserID)
         }
     }
     return
