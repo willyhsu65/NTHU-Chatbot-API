@@ -167,21 +167,29 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds string
     userCollect := db.MongoDatabase.Collection("user")
     filter := bson.M{"broadcastTag": bson.M{ "$gte": ts } }
 
-    err := userCollect.Find(context.TODO(), filter).All(&results)
-    if err != nil {
+    cursor, err_find := userCollect.Find(context.TODO(), filter)
+    if err_find != nil {
         log.Println(err_find.Error())
-    } else {
-        audienceIds = ""
-        for _, user_row := range results {
-            if id != "" {
-                if user_row.UserID == id {
-                    audienceIds = audienceIds + "," + user_row.UserID
-                }
-            } else {
+        return
+    }
+
+    err := cursor.All(&results)
+    if err != nil {
+        log.Println(err.Error())
+        return
+    }
+
+    audienceIds = ""
+    for _, user_row := range results {
+        if id != "" {
+            if user_row.UserID == id {
                 audienceIds = audienceIds + "," + user_row.UserID
             }
+        } else {
+            audienceIds = audienceIds + "," + user_row.UserID
         }
     }
+    return
 }
 
 /* user_map_record */
