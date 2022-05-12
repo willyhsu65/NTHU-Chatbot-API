@@ -180,8 +180,7 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds []stri
         log.Println(err_all.Error())
         return
     }
-
-    audienceIds = ""
+    
     for _, user_row := range results {
         if id != "" {
             if user_row.UserID == id {
