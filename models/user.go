@@ -165,7 +165,7 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds []stri
 
     ts := time.Now().Unix()
     userCollect := db.MongoDatabase.Collection("user")
-    filter := bson.M{"broadcastTag": bson.M{ "$gte": ts } }
+    filter := bson.M{"broadcastTag": bson.M{ "$lte": ts } }
 
     cursor, err_find := userCollect.Find(context.TODO(), filter)
     if err_find != nil {
@@ -180,7 +180,8 @@ func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds []stri
         log.Println(err_all.Error())
         return
     }
-    
+
+    audienceIds = []string{}
     for _, user_row := range results {
         if id != "" {
             if user_row.UserID == id {
