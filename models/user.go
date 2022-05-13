@@ -149,7 +149,7 @@ func (u *User) GetInfo() (time string, err error) {
 func (u *User) UpdateBroadcastTag(tag int) (err error) {
     userCollect := db.MongoDatabase.Collection("user")
     
-    filter := bson.M{"userID": u.UserID}
+    filter := bson.M{ "userID": u.UserID }
     update := bson.M{ "$set": bson.M{ "broadcastTag": tag } }
 
     ctx, _ := context.WithTimeout(context.TODO(), 5*time.Second)
