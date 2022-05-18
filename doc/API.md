@@ -158,17 +158,19 @@
 
 * **userAPI**
 
-  | API Method | API URL                  | Desc                         | Req Params        | Resp Result |
-  | ---------- | ------------------------ | ---------------------------- | ----------------- | ----------- |
-  | POST       | v1URL/user/insertOne     | 新增使用者                   | userID            |             |
-  | GET        | v1URL/user/isExist       | 查看使用者是否存在           | userID            | isExist     |
-  | GET        | v1URL/user/getFlag       | 取得flag                     | userID            | flag        |
-  | POST       | v1URL/user/initFlag      | 初始化flag                   | userID            |             |
-  | POST       | v1URL/user/setFlag       | 設定flag                     | userID, flag      |             |
-  | GET        | v1URL/user/getInfo       | 取得使用者資料               | userID            | time        |
-  | POST       | v1URL/user/bindStudentID | 綁定學生學號                 | userID, studentID |             |
-  | POST       | v1URL/user/map/insert    | 新增一筆查詢校園地圖資料     | userID, location  |             |
-  | GET        | v1URL/user/map/record    | 取得此使用者查詢校園地圖紀錄 | userID            | [location]  |
+  | API Method | API URL                               | Desc                         | Req Params        | Resp Result |
+  | ---------- | ------------------------------------- | ---------------------------- | ----------------- | ----------- |
+  | POST       | v1URL/user/insertOne                  | 新增使用者                   | userID            |             |
+  | GET        | v1URL/user/isExist                    | 查看使用者是否存在           | userID            | isExist     |
+  | GET        | v1URL/user/getFlag                    | 取得flag                     | userID            | flag        |
+  | POST       | v1URL/user/initFlag                   | 初始化flag                   | userID            |             |
+  | POST       | v1URL/user/setFlag                    | 設定flag                     | userID, flag      |             |
+  | GET        | v1URL/user/getInfo                    | 取得使用者資料               | userID            | time        |
+  | POST       | v1URL/user/bindStudentID              | 綁定學生學號                 | userID, studentID |             |
+  | POST       | v1URL/user/map/insert                 | 新增一筆查詢校園地圖資料     | userID, location  |             |
+  | GET        | v1URL/user/map/record                 | 取得此使用者查詢校園地圖紀錄 | userID            | [location]  |
+  | POST       | v1URL/user/updateBroadcastTag         | 設定使用者的上次被推播的時間戳 | userID, tag     |   |
+  | GET        | v1URL/user/getBroadcastAudienceIds    | 取得要被推播的使用者 id      | userID (Optional, select everyone if not given) | [userID]  |
   
 * **anecdoteAPI**
 

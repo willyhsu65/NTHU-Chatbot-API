@@ -17,12 +17,13 @@ import (
 )
 
 type User struct {
-    UserID    string    `json:"userID" form:"userID" bson:"userID"`
-    Category  string    `json:"userID" form:"category" bson:"category"`
-    Time      string    `json:"time" form:"time" bson:"time"`
-    Flag      string    `json:"flag" form:"flag" bson:"flag"`
-    Tag       []string  `json:"tag" form:"tag" bson:"tag"`
-    StudentID string    `json:"studentID" form:"studentID" bson:"studentID"`
+    UserID          string    `json:"userID" form:"userID" bson:"userID"`
+    Category        string    `json:"userID" form:"category" bson:"category"`
+    Time            string    `json:"time" form:"time" bson:"time"`
+    Flag            string    `json:"flag" form:"flag" bson:"flag"`
+    Tag             []string  `json:"tag" form:"tag" bson:"tag"`
+    StudentID       string    `json:"studentID" form:"studentID" bson:"studentID"`
+    BroadcastTag    int       `json:"broadcastTag" form:"broadcastTag" bson:"broadcastTag"`
 }
 
 type UserInfo struct {
@@ -141,6 +142,54 @@ func (u *User) GetInfo() (time string, err error) {
         log.Println(err.Error())
     } else {
         time = result.Time
+    }
+    return
+}
+
+func (u *User) UpdateBroadcastTag(tag int) (err error) {
+    userCollect := db.MongoDatabase.Collection("user")
+    
+    filter := bson.M{ "userID": u.UserID }
+    update := bson.M{ "$set": bson.M{ "broadcastTag": tag } }
+
+    ctx, _ := context.WithTimeout(context.TODO(), 5*time.Second)
+    _, err = userCollect.UpdateOne(ctx, filter, update)
+    if err != nil {
+        log.Println(err.Error())
+    }
+    return
+}
+
+func (u *User) GetBroadcastAudienceIds(id string) (err error, audienceIds []string) {    
+    var results []User
+
+    ts := time.Now().Unix()
+    userCollect := db.MongoDatabase.Collection("user")
+    filter := bson.M{"broadcastTag": bson.M{ "$lte": ts } }
+
+    cursor, err_find := userCollect.Find(context.TODO(), filter)
+    if err_find != nil {
+        err = err_find
+        log.Println(err_find.Error())
+        return
+    }
+
+    err_all := cursor.All(context.TODO(), &results)
+    if err_all != nil {
+        err = err_all
+        log.Println(err_all.Error())
+        return
+    }
+
+    audienceIds = []string{}
+    for _, user_row := range results {
+        if id != "" {
+            if user_row.UserID == id {
+                audienceIds = append(audienceIds, user_row.UserID)
+            }
+        } else {
+            audienceIds = append(audienceIds, user_row.UserID)
+        }
     }
     return
 }
