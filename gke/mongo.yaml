@@ -17,10 +17,10 @@ spec:
         resources:
           requests:
             memory: "512Mi"
-            CPU: "250m"
+            cpu: "250m"
           limits:
             memory: "512Mi"
-            CPU: "250m"
+            cpu: "250m"
         image: mongo
         args: ["--auth"]
         ports:
