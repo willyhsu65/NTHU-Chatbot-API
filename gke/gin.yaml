@@ -19,6 +19,13 @@ spec:
       - image: gcr.io/${PROJECT_ID}/nthu-chatbot-api:latest
         imagePullPolicy: Always
         name: nthu-chatbot-api
+        resources:
+          request:
+            memory: "256Mi"
+            CPU: "100m"
+          limits:
+            memory: "512Mi"
+            CPU: "200m"
         ports:
         - containerPort: 8080
         env:
