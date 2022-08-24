@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: Always
         name: nthu-chatbot-api
         resources:
-          request:
+          requests:
             memory: "256Mi"
             CPU: "100m"
           limits:
