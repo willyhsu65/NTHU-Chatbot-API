@@ -13,4 +13,4 @@ spec:
     protocol: TCP
   selector:
     app: gin
-  type: LoadBalancer
+  type: NodePort
