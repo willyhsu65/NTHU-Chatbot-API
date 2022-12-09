@@ -12,9 +12,7 @@ import (
     "go.mongodb.org/mongo-driver/mongo/readpref"
 )
 	
-const (
-     host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"
-)
+    host := os.ExpandEnv("mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017")
 
 var mongoClient *mongo.Client
 var MongoDatabase *mongo.Database
