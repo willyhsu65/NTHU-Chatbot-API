@@ -16,11 +16,13 @@ spec:
       - name: mongo
         resources:
           requests:
-            memory: "512Mi"
             cpu: "250m"
+            ephemeral-storage: 1Gi
+            memory: "512Mi"
           limits:
-            memory: "512Mi"
             cpu: "250m"
+            ephemeral-storage: 1Gi
+            memory: "512Mi"
         image: mongo
         args: ["--auth"]
         ports:
@@ -35,3 +37,30 @@ spec:
       - name: mongo-persistent-storage
         persistentVolumeClaim:
           claimName: mongo-pv-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    app: mongo
+spec:
+  selector:
+    app: mongo
+  type: NodePort
+  ports:
+    - port: 27017
+      targetPort: 27017
+      nodePort: 30432
+      protocol: TCP

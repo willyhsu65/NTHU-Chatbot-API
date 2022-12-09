@@ -16,18 +16,73 @@ spec:
         app: gin
     spec:
       containers:
-      - image: gcr.io/${PROJECT_ID}/nthu-chatbot-api:latest
+      - image: gcr.io/nthu-chatbot/github.com/nthuagent/nthu-chatbot-api
         imagePullPolicy: Always
         name: nthu-chatbot-api
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "250m"
         ports:
         - containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "250m"
+            ephemeral-storage: 1Gi
+            memory: "512Mi"
+          limits:
+            cpu: "250m"
+            ephemeral-storage: 1Gi
+            memory: "512Mi"
         env:
         - name: TZ
           value: Asia/Taipei
+        - name: GINIP
+          valueFrom:
+            configMapKeyRef:
+              name: gin-config
+              key: ginip
+        - name: MONGO_ACCOUNT 
+          valueFrom: 
+            secretKeyRef:
+              name: mongo-account # kubernetes secret
+              key: password
+        - name: MONGO_PASS 
+          valueFrom: 
+            secretKeyRef:
+              name: mongo-pass # kubernetes secret
+              key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gin
+  name: gin-service
+  namespace: default
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  ports:
+  - nodePort: 32431
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: gin
+  type: NodePort
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gin
+  namespace: default
+spec:
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gin
