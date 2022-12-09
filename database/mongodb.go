@@ -13,7 +13,7 @@ import (
 )
 	
 const (
-    host = "mongodb://os.Getenv("MONGO_ACCOUNT"):os.Getenv("MONGO_PASS")@os.Getenv("MONGOIP"):27017"
+    host = "mongodb://${os.Getenv("MONGO_ACCOUNT")}:${os.Getenv("MONGO_PASS")}@${os.Getenv("MONGOIP"):27017}"
     // host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"
 )
 
