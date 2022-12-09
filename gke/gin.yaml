@@ -34,11 +34,11 @@ spec:
         env:
         - name: TZ
           value: Asia/Taipei
-        - name: GINIP
+        - name: MONGOIP
           valueFrom:
             configMapKeyRef:
-              name: gin-config
-              key: ginip
+              name: mongo-config
+              key: mongoip
         - name: MONGO_ACCOUNT 
           valueFrom: 
             secretKeyRef:
