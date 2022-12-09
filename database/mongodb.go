@@ -5,15 +5,16 @@ import (
     "fmt"
     "log"
     "time"
+	"os"
 
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
     "go.mongodb.org/mongo-driver/mongo/readpref"
 )
-
+	
 const (
-    // host = "mongodb://[MONGO_ACCOUNT]:[MONGO_PASS]@[MONGO_IP]:27017"
-    host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"
+    host = "mongodb://os.Getenv("MONGO_ACCOUNT"):os.Getenv("MONGO_PASS")@os.Getenv("MONGOIP"):27017"
+    // host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"
 )
 
 var mongoClient *mongo.Client
