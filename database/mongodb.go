@@ -11,8 +11,9 @@ import (
     "go.mongodb.org/mongo-driver/mongo/options"
     "go.mongodb.org/mongo-driver/mongo/readpref"
 )
-	
-    var host = os.ExpandEnv("mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017")
+
+// host = "mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017"	
+var host = os.ExpandEnv("mongodb://${MONGO_ACCOUNT}:${MONGO_PASS}@${MONGOIP}:27017")
 
 var mongoClient *mongo.Client
 var MongoDatabase *mongo.Database
